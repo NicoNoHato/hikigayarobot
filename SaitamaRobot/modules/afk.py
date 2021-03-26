@@ -29,14 +29,14 @@ def afk(update: Update, context: CallbackContext):
         reason = args[1]
         if len(reason) > 100:
             reason = reason[:100]
-            notice = "\nAlasan afk kamu telah dipersingkat dari 100 Kata."
+            notice = "\nYour afk reason was shortened to 100 characters."
     else:
         reason = ""
 
     sql.set_afk(update.effective_user.id, reason)
     fname = update.effective_user.first_name
     try:
-        update.effective_message.reply_text("{} sedang afk #afk{}".format(
+        update.effective_message.reply_text("{} is now offline #afk{}".format(
             fname, notice))
     except BadRequest:
         pass
@@ -57,41 +57,17 @@ def no_longer_afk(update: Update, context: CallbackContext):
         firstname = update.effective_user.first_name
         try:
             options = [
-                'Yo wassap {}!', 'Welkombek {}!', 'Selamat Datang kembali {}, Gada yang kangen kamu btw',
-                '{} Kenapa lu kesini woe?', '{} itu nyimakin chat ini dari tadi!', 'Yo {} Mau Mandi dulu?, Makan dulu?, Atau... @PicoKwai? >~<',
-                'Yamete...Yamete-kudasai {}-sama', 'Oh gawat! {} Gabisa bersantuy!!', 'Si {} dapet Pacar makanya dia afk tadi.', 'Selamat datang kembali {}! Tentunya dineraka ini wahaha!!', '{} disini! Mari mulai kontesnya!', '{} Keknya lu harus delete akun beb.', '{} ahem! Kesayanganku ada disini!', 'Ey {} Bangsul, Gue liat lu nyimak tapi ga nimbrung, Tabok nih (°-°).', '{} cuy kita spam di grup kuy :3', '{}Kang spam telah tiba, Siap siap kawan! Gue bakal siapin palu bannednya!', 'Yasashiku shinasai yo {} oni chan...'             
+                '{} is here!', '{} is back!', '{} is now in the chat!',
+                '{} is awake!', '{} is back online!', '{} is finally here!',
+                'Welcome back! {}', 'Where is {}?\nIn the chat!'
             ]
             chosen_option = random.choice(options)
             update.effective_message.reply_text(chosen_option.format(firstname))
         except:
             return
+
+
 @run_async
-def reply_afk(update: Update, context: CallbackContext):
-    bot = context.bot
-    message = update.effective_message
-    userc = update.effective_user
-    userc_id = userc.id
-    if message.entities and message.parse_entities(
-        [MessageEntity.TEXT_MENTION, MessageEntity.MENTION]):
-        entities = message.parse_entities(
-            [MessageEntity.TEXT_MENTION, MessageEntity.MENTION])
-
-        chk_users = []
-        for ent in entities:
-            if ent.type == MessageEntity.TEXT_MENTION:
-                user_id = ent.user.id
-                fst_name = ent.user.first_name
-
-                if user_id in chk_users:
-                    return
-                chk_users.append(user_id)
-
-            if ent.type == MessageEntity.MENTION:
-                user_id = get_user_id(message.text[ent.offset:ent.offset +
-                                                   ent.length])
-                if not user_id:
-                    # Should never happen, since for a user to become AFK they must have spoken. Maybe changed username?
-                    return
 def reply_afk(update: Update, context: CallbackContext):
     bot = context.bot
     message = update.effective_message
@@ -126,7 +102,7 @@ def reply_afk(update: Update, context: CallbackContext):
                 try:
                     chat = bot.get_chat(user_id)
                 except BadRequest:
-                    print("Error: Tidak menemukan ID User {} Untuk melakukan afk"
+                    print("Error: Could not fetch userid {} for AFK module"
                           .format(user_id))
                     return
                 fst_name = chat.first_name
@@ -153,20 +129,20 @@ def check_afk(update, context, user_id, fst_name, userc_id):
         else:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} sedang afk.\nReason: <code>{}</code>\n#afk".format(
+            res = "{} sedang afk.\nKarena: <code>{}</code>".format(
                 html.escape(fst_name), html.escape(user.reason))
             update.effective_message.reply_text(res, parse_mode="html")
 
 
 __help__ = """
- • `/afk <reason>`*:* mark yourself as AFK(away from keyboard).
- • `brb <reason>`*:* same as the afk command - but not a command.
-When marked as AFK, any mentions will be replied to with a message to say you're not available!
+ • `/afk <reason>`*:* Menandai kamu sedang AFK(away from keyboard).
+ • `brb <reason>`*:* Sama kaya perintah afk, Tapi bukan sebuah perintah.
+Pas lagi afk orang yang menjawab pesan atau menandai kamu akan dijawab oleh bot kalo kamu sedang afk!
 """
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
 AFK_REGEX_HANDLER = DisableAbleMessageHandler(
-    Filters.regex(r"^brb(.*)$"), afk, friendly="afk")
+    Filters.regex(r"^(?i)brb(.*)$"), afk, friendly="afk")
 NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.group, no_longer_afk)
 AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.group, reply_afk)
 
