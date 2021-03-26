@@ -65,9 +65,33 @@ def no_longer_afk(update: Update, context: CallbackContext):
             update.effective_message.reply_text(chosen_option.format(firstname))
         except:
             return
-
-
 @run_async
+def reply_afk(update: Update, context: CallbackContext):
+    bot = context.bot
+    message = update.effective_message
+    userc = update.effective_user
+    userc_id = userc.id
+    if message.entities and message.parse_entities(
+        [MessageEntity.TEXT_MENTION, MessageEntity.MENTION]):
+        entities = message.parse_entities(
+            [MessageEntity.TEXT_MENTION, MessageEntity.MENTION])
+
+        chk_users = []
+        for ent in entities:
+            if ent.type == MessageEntity.TEXT_MENTION:
+                user_id = ent.user.id
+                fst_name = ent.user.first_name
+
+                if user_id in chk_users:
+                    return
+                chk_users.append(user_id)
+
+            if ent.type == MessageEntity.MENTION:
+                user_id = get_user_id(message.text[ent.offset:ent.offset +
+                                                   ent.length])
+                if not user_id:
+                    # Should never happen, since for a user to become AFK they must have spoken. Maybe changed username?
+                    return
 def reply_afk(update: Update, context: CallbackContext):
     bot = context.bot
     message = update.effective_message
@@ -124,12 +148,12 @@ def check_afk(update, context, user_id, fst_name, userc_id):
         if not user.reason:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} sedang afk".format(fst_name)
+            res = "{} is afk".format(fst_name)
             update.effective_message.reply_text(res)
         else:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} sedang afk.\nKarena: <code>{}</code>".format(
+            res = "{} is afk.\nReason: <code>{}</code>\n#afk".format(
                 html.escape(fst_name), html.escape(user.reason))
             update.effective_message.reply_text(res, parse_mode="html")
 
@@ -142,7 +166,7 @@ When marked as AFK, any mentions will be replied to with a message to say you're
 
 AFK_HANDLER = DisableAbleCommandHandler("afk", afk)
 AFK_REGEX_HANDLER = DisableAbleMessageHandler(
-    Filters.regex(r"^(?i)brb(.*)$"), afk, friendly="afk")
+    Filters.regex(r"^brb(.*)$"), afk, friendly="afk")
 NO_AFK_HANDLER = MessageHandler(Filters.all & Filters.group, no_longer_afk)
 AFK_REPLY_HANDLER = MessageHandler(Filters.all & Filters.group, reply_afk)
 
