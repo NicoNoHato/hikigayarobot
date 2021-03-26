@@ -67,15 +67,15 @@ def anime(update: Update, context: CallbackContext):
     rep += f"<b>Premiered:</b> <code>{premiered}</code>\n"
     rep += f"<b>Rating:</b> <code>{rating}</code>\n\n"
     rep += f"<a href='{image_url}'>\u200c</a>"
-    rep += f"<i>{synopsis}</i>\n"
+    rep += f"<i>Sinopsis:\n{synopsis}</i>\n"
     if trailer:
         keyb = [
-            [InlineKeyboardButton("More Information", url=url),
+            [InlineKeyboardButton("Informasi Selengkapnya", url=url),
            InlineKeyboardButton("Trailer", url=trailer)]
         ]
     else:
         keyb = [
-             [InlineKeyboardButton("More Information", url=url)]
+             [InlineKeyboardButton("Informasi Selengkapnya", url=url)]
          ]
     
     
@@ -91,7 +91,7 @@ def character(update: Update, context: CallbackContext):
     try:
         search = jikan.search("character", query).get("results")[0].get("mal_id")
     except APIException:
-        msg.reply_text("No results found!")
+        msg.reply_text("Ga ketemu :(")
         return ""
     if search:
         try:
@@ -107,11 +107,11 @@ def character(update: Update, context: CallbackContext):
             about = about[:4000] + "..."
         image = res.get("image_url")
         url = res.get("url")
-        rep = f"<b>{name} ({kanji})</b>\n\n"
+        rep = f"<b>Nama: {name} ({kanji})</b>\n\n"
         rep += f"<a href='{image}'>\u200c</a>"
-        rep += f"<i>{about}</i>\n"
+        rep += f"<i>Tentang: {about}</i>\n"
         keyb = [
-            [InlineKeyboardButton("More Information", url=url)]
+            [InlineKeyboardButton("Informasi Selengkapnya.", url=url)]
         ]
         
         msg.reply_text(rep, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(keyb))
@@ -120,7 +120,7 @@ def character(update: Update, context: CallbackContext):
 @run_async
 def upcoming(update: Update, context: CallbackContext):
     msg = update.effective_message
-    rep = "<b>Upcoming anime</b>\n"
+    rep = "<b>Anime yang akan datang:</b>\n"
     later = jikan.season_later()
     anime = later.get("anime")
     for new in anime:
@@ -165,7 +165,8 @@ def manga(update: Update, context: CallbackContext):
         synopsis = manga.get("synopsis")
         image = manga.get("image_url")
         url = manga.get("url")
-        rep = f"<b>{title} ({japanese})</b>\n"
+        rep = f"<b>{title}</b>\n"
+        rep += f"Judul Jepang: <code>{japanese}</code>\n"
         rep += f"<b>Type:</b> <code>{type}</code>\n"
         rep += f"<b>Status:</b> <code>{status}</code>\n"
         rep += f"<b>Genres:</b> <code>{genres}</code>\n"
@@ -173,30 +174,30 @@ def manga(update: Update, context: CallbackContext):
         rep += f"<b>Volumes:</b> <code>{volumes}</code>\n"
         rep += f"<b>Chapters:</b> <code>{chapters}</code>\n\n"
         rep += f"<a href='{image}'>\u200c</a>"
-        rep += f"<i>{synopsis}</i>"
+        rep += f"<i>Sinopsis:\n{synopsis}</i>"
         keyb = [
-            [InlineKeyboardButton("More Information", url=url)]
+            [InlineKeyboardButton("Informasi Selengkapnya", url=url)]
         ]
         
         msg.reply_text(rep, parse_mode=ParseMode.HTML, reply_markup=InlineKeyboardMarkup(keyb))
         
         
 __help__ = """
-Get information about anime, manga or characters with the help of this module! All data is fetched from [MyAnimeList](https://myanimelist.net).
-*Available commands:*
- - /manime <anime>: returns information about the anime.
- - /mcharacter <character>: returns information about the character.
- - /mmanga <manga>: returns information about the manga.
- - /mupcoming: returns a list of new anime in the upcoming seasons.
+Mendapatkan berbagai informasi seputar Anime dari [MyAnimeList](https://myanimelist.net).
+*Perintah yang dapat digunakan:*
+ - /manime <anime>: Memberi informasi tentang Anime yang dicari.
+ - /karakter <karakter>: Memberi informasi tentang Karakter yang dicari.
+ - /manga <manga>: Memberi informasi Tentang Manga yang dicari.
+ - /upcoming: Memberi daftar anime yang akan datang dari MyAnimeList.
  """
 
 __mod_name__ = "MyAnimeList"
         
         
 ANIME_HANDLER = CommandHandler("manime", anime, pass_args=True)
-CHARACTER_HANDLER = CommandHandler("mcharacter", character, pass_args=True)
-UPCOMING_HANDLER = CommandHandler("mupcoming", upcoming)
-MANGA_HANDLER = CommandHandler("mmanga", manga, pass_args=True)
+CHARACTER_HANDLER = CommandHandler("karakter", character, pass_args=True)
+UPCOMING_HANDLER = CommandHandler("upcoming", upcoming)
+MANGA_HANDLER = CommandHandler("manga", manga, pass_args=True)
 
 dispatcher.add_handler(ANIME_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
