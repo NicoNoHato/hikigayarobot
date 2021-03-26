@@ -126,7 +126,7 @@ def reply_afk(update: Update, context: CallbackContext):
                 try:
                     chat = bot.get_chat(user_id)
                 except BadRequest:
-                    print("Error: Could not fetch userid {} for AFK module"
+                    print("Error: Tidak menemukan ID User {} Untuk melakukan afk"
                           .format(user_id))
                     return
                 fst_name = chat.first_name
@@ -148,12 +148,12 @@ def check_afk(update, context, user_id, fst_name, userc_id):
         if not user.reason:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} is afk".format(fst_name)
+            res = "{} sedang afk".format(fst_name)
             update.effective_message.reply_text(res)
         else:
             if int(userc_id) == int(user_id):
                 return
-            res = "{} is afk.\nReason: <code>{}</code>\n#afk".format(
+            res = "{} sedang afk.\nReason: <code>{}</code>\n#afk".format(
                 html.escape(fst_name), html.escape(user.reason))
             update.effective_message.reply_text(res, parse_mode="html")
 
