@@ -49,18 +49,18 @@ def calculate_eta(current, total, start_time):
     return ', '.join(thing)
 
 
-@pbot.on_message(filters.command('whatanime'))
-async def whatanime(c: Client, m: Message):
+@pbot.on_message(filters.command('kepo'))
+async def kepo(c: Client, m: Message):
     media = m.photo or m.animation or m.video or m.document
     if not media:
         reply = m.reply_to_message
         if not getattr(reply, 'empty', True):
             media = reply.photo or reply.animation or reply.video or reply.document
     if not media:
-        await m.reply_text('Photo or GIF or Video required')
+        await m.reply_text('Jawabnya ke Foto, Video Atau Gif!')
         return
     with tempfile.TemporaryDirectory() as tempdir:
-        reply = await m.reply_text('Downloading...')
+        reply = await m.reply_text('Lagi Download...')
         path = await c.download_media(media, file_name=os.path.join(tempdir, '0'), progress=progress_callback, progress_args=(reply,))
         new_path = os.path.join(tempdir, '1.png')
         proc = await asyncio.create_subprocess_exec('ffmpeg', '-i', path, '-frames:v', '1', new_path)
@@ -137,7 +137,7 @@ async def progress_callback(current, total, reply):
                 (total - current) / (time.time() - start_time))
         else:
             download_speed = '0 B'
-        text = f'''Downloading...
+        text = f'''Lagi Download...
 <code>{return_progress_string(current, total)}</code>
 
 <b>Total Size:</b> {format_bytes(total)}
