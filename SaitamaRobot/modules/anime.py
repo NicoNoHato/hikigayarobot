@@ -559,16 +559,15 @@ Dapatkan Informasi seputar Anime dari [AniList](anilist.co).
 
 *Perintah yang dapat digunakan:*
 
- • `/anime <anime>`*:* returns information about the anime.
- • `/character <character>`*:* returns information about the character.
- • `/manga <manga>`*:* returns information about the manga.
- • `/user <user>`*:* returns information about a MyAnimeList user.
- • `/upcoming`*:* returns a list of new anime in the upcoming seasons.
- • `/kaizoku <anime>`*:* search an anime on animekaizoku.com
- • `/kayo <anime>`*:* search an anime on animekayo.com
- • `/airing <anime>`*:* returns anime airing info.
- •  /whatanime - reply to a gif or a video if will find the source
-                               
+ • `/anime <anime>`*:* Memberi Informasi tentang Anime yang dicari.
+ • `/character <character>`*:* Memberi Informasi tentang Karakter yang dicari.
+ • `/manga <manga>`*:* Memberi Informasi tentang Manga yang dicari.
+ • `/user <user>`*:* Memberi Informasi tentang User yang dicari.
+ • `/upcoming`*:* Memberi Daftar Anime yang akan datang di musim berikutnya.
+ • `/kaizoku <anime>`*:* Mencari anime dari animekaizoku.com
+ • `/kayo <anime>`*:* Mencari anime dari animekayo.com
+ • `/airing <anime>`*:* Memberi Info tentang Airing Anime.
+ • `/kepo` - Jawab pesan Video, Gif, Atau Foto.          
  """
 
 ANIME_HANDLER = DisableAbleCommandHandler("anime", anime)
