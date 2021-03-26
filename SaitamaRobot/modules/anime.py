@@ -11,21 +11,21 @@ from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
                       Update)
 from telegram.ext import CallbackContext, CallbackQueryHandler, run_async
 
-info_btn = "More Information"
+info_btn = "Informasi Selengkapnya"
 kaizoku_btn = "Kaizoku ☠️"
 kayo_btn = "Kayo 🏴‍☠️"
 prequel_btn = "⬅️ Prequel"
 sequel_btn = "Sequel ➡️"
-close_btn = "Close ❌"
+close_btn = "Tutup ❌"
 
 
 def shorten(description, info='anilist.co'):
     msg = ""
     if len(description) > 700:
         description = description[0:500] + '....'
-        msg += f"\n*Description*: _{description}_[Read More]({info})"
+        msg += f"\n*Deskripsi*: _{description}_[Baca selengkapnya]({info})"
     else:
-        msg += f"\n*Description*:_{description}_"
+        msg += f"\n*Deskripsi*:_{description}_"
     return msg
 
 
@@ -164,7 +164,7 @@ def airing(update: Update, context: CallbackContext):
     search_str = message.text.split(' ', 1)
     if len(search_str) == 1:
         update.effective_message.reply_text(
-            'Tell Anime Name :) ( /airing <anime name>)')
+            'Kasih tau Nama Animenya :) ( /airing <nama anime>)')
         return
     variables = {'search': search_str[1]}
     response = requests.post(
@@ -187,7 +187,7 @@ def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
-        update.effective_message.reply_text('Format : /anime < anime name >')
+        update.effective_message.reply_text('Format : /anime < nama anime >')
         return
     else:
         search = search[1]
@@ -198,7 +198,7 @@ def anime(update: Update, context: CallbackContext):
             'variables': variables
         }).json()
     if 'errors' in json.keys():
-        update.effective_message.reply_text('Anime not found')
+        update.effective_message.reply_text('Anime ga ketemu :(')
         return
     if json:
         json = json['data']['Media']
@@ -224,11 +224,11 @@ def anime(update: Update, context: CallbackContext):
         image = json.get('bannerImage', None)
         if trailer:
             buttons = [[
-                InlineKeyboardButton("More Info", url=info),
+                InlineKeyboardButton("Info Lebih", url=info),
                 InlineKeyboardButton("Trailer 🎬", url=trailer)
             ]]
         else:
-            buttons = [[InlineKeyboardButton("More Info", url=info)]]
+            buttons = [[InlineKeyboardButton("Info Lebih", url=info)]]
         if image:
             try:
                 update.effective_message.reply_photo(
@@ -255,7 +255,7 @@ def character(update: Update, context: CallbackContext):
     search = message.text.split(' ', 1)
     if len(search) == 1:
         update.effective_message.reply_text(
-            'Format : /character < character name >')
+            'Format : /karakter < nama karakter >')
         return
     search = search[1]
     variables = {'query': search}
@@ -265,7 +265,7 @@ def character(update: Update, context: CallbackContext):
             'variables': variables
         }).json()
     if 'errors' in json.keys():
-        update.effective_message.reply_text('Character not found')
+        update.effective_message.reply_text('Karakter ga ketemu :(')
         return
     if json:
         json = json['data']['Character']
@@ -290,7 +290,7 @@ def manga(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
-        update.effective_message.reply_text('Format : /manga < manga name >')
+        update.effective_message.reply_text('Format : /manga < nama manga >')
         return
     search = search[1]
     variables = {'search': search}
@@ -368,7 +368,7 @@ def user(update: Update, context: CallbackContext):
     try:
         user = jikan.user(search_query)
     except jikanpy.APIException:
-        update.effective_message.reply_text("Username not found.")
+        update.effective_message.reply_text("Username ga ketemu :(")
         return
 
     progress_message = update.effective_message.reply_text("Searching.... ")
@@ -555,9 +555,9 @@ def kayo(update: Update, context: CallbackContext):
 
 
 __help__ = """
-Get information about anime, manga or characters from [AniList](anilist.co).
+Dapatkan Informasi seputar Anime dari [AniList](anilist.co).
 
-*Available commands:*
+*Perintah yang dapat digunakan:*
 
  • `/anime <anime>`*:* returns information about the anime.
  • `/character <character>`*:* returns information about the character.
@@ -573,7 +573,7 @@ Get information about anime, manga or characters from [AniList](anilist.co).
 
 ANIME_HANDLER = DisableAbleCommandHandler("anime", anime)
 AIRING_HANDLER = DisableAbleCommandHandler("airing", airing)
-CHARACTER_HANDLER = DisableAbleCommandHandler("character", character)
+CHARACTER_HANDLER = DisableAbleCommandHandler("karakter", character)
 MANGA_HANDLER = DisableAbleCommandHandler("manga", manga)
 USER_HANDLER = DisableAbleCommandHandler("user", user)
 UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
@@ -593,7 +593,7 @@ dispatcher.add_handler(UPCOMING_HANDLER)
 
 __mod_name__ = "Anime"
 __command_list__ = [
-    "anime", "manga", "character", "user", "upcoming", "kaizoku", "airing",
+    "anime", "manga", "karakter", "user", "upcoming", "kaizoku", "airing",
     "kayo"
 ]
 __handlers__ = [
