@@ -186,17 +186,17 @@ __help__ = """
 Mendapatkan berbagai informasi seputar Anime dari [MyAnimeList](https://myanimelist.net).
 *Perintah yang dapat digunakan:*
  - /manime <anime>: Memberi informasi tentang Anime yang dicari.
- - /karakter <karakter>: Memberi informasi tentang Karakter yang dicari.
- - /manga <manga>: Memberi informasi Tentang Manga yang dicari.
- - /upcoming: Memberi daftar anime yang akan datang dari MyAnimeList.
+ - /mcharacter <karakter>: Memberi informasi tentang Karakter yang dicari.
+ - /mmanga <manga>: Memberi informasi Tentang Manga yang dicari.
+ - /mupcoming: Memberi daftar anime yang akan datang dari MyAnimeList.
  """
 
 __mod_name__ = "MyAnimeList"
         
         
 ANIME_HANDLER = CommandHandler("manime", anime, pass_args=True)
-CHARACTER_HANDLER = CommandHandler("karakter", character, pass_args=True)
-UPCOMING_HANDLER = CommandHandler("upcoming", upcoming)
+CHARACTER_HANDLER = CommandHandler("mcharacter", character, pass_args=True)
+UPCOMING_HANDLER = CommandHandler("mupcoming", upcoming)
 MANGA_HANDLER = CommandHandler("manga", manga, pass_args=True)
 
 dispatcher.add_handler(ANIME_HANDLER)
