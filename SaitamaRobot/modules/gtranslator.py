@@ -26,7 +26,7 @@ def totranslate(update: Update, context: CallbackContext):
             try:
                 source_lang = args[1].split(None, 1)[0]
             except (IndexError, AttributeError):
-                source_lang = "en"
+                source_lang = "id"
 
         else:
             args = update.effective_message.text.split(None, 2)
@@ -65,13 +65,13 @@ def totranslate(update: Update, context: CallbackContext):
             detection = trl.detect(text)
             trans_str = trl.translate(text, lang_tgt=dest_lang)
             return message.reply_text(
-                f"Translated from `{detection[0]}` to `{dest_lang}`:\n`{trans_str}`",
+                f"Ditranslare dari `{detection[0]}` ke `{dest_lang}`:\n`{trans_str}`",
                 parse_mode=ParseMode.MARKDOWN)
         else:
             trans_str = trl.translate(
                 text, lang_tgt=dest_lang, lang_src=source_lang)
             message.reply_text(
-                f"Translated from `{source_lang}` to `{dest_lang}`:\n`{trans_str}`",
+                f"Ditranslate dari `{source_lang}` ke `{dest_lang}`:\n`{trans_str}`",
                 parse_mode=ParseMode.MARKDOWN)
 
     except IndexError:
