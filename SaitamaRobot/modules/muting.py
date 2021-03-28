@@ -79,7 +79,7 @@ def mute(update: Update, context: CallbackContext) -> str:
         bot.restrict_chat_member(chat.id, user_id, chat_permissions)
         bot.sendMessage(
             chat.id,
-            f"Dibisukan <b>{html.escape(member.user.first_name)}</b> tanpa batas waktu!",
+            f"<b>{html.escape(member.user.first_name)}</b> Dibisukan tanpa batas waktu!",
             parse_mode=ParseMode.HTML)
         return log
 
@@ -202,11 +202,11 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
                 chat.id, user_id, chat_permissions, until_date=mutetime)
             bot.sendMessage(
                 chat.id,
-                f"Muted <b>{html.escape(member.user.first_name)}</b> for {time_val}!",
+                f"Dibisukan.<b>{html.escape(member.user.first_name)}</b> untuk {time_val}!",
                 parse_mode=ParseMode.HTML)
             return log
         else:
-            message.reply_text("This user is already muted.")
+            message.reply_text("Orang ini udah dibisukan.")
 
     except BadRequest as excp:
         if excp.message == "Reply message not found":
