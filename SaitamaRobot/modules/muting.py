@@ -19,24 +19,25 @@ from telegram.utils.helpers import mention_html
 
 def check_user(user_id: int, bot: Bot, chat: Chat) -> Optional[str]:
     if not user_id:
-        reply = "You don't seem to be referring to a user or the ID specified is incorrect.."
+        reply = "Kayaknya kamu bukan membisukan pengguna deh atau ga ID (usernamenya) salah.."
         return reply
 
     try:
         member = chat.get_member(user_id)
     except BadRequest as excp:
-        if excp.message == "User not found":
-            reply = "I can't seem to find this user"
+        if excp.message == "Pengguna ga ketemu":
+            reply = "Aku keknya ga ngeliat pengguna ini"
             return reply
         else:
             raise
 
     if user_id == bot.id:
-        reply = "I'm not gonna MUTE myself, How high are you?"
+        reply = "Gue gabakal bisukan diri sendiri"
+        reply = "Sombong bet lu ngebisuin gw, Lu sapa?"
         return reply
 
     if is_user_admin(chat, user_id, member) or user_id in TIGERS:
-        reply = "Can't. Find someone else to mute but not this one."
+        reply = "Gabisa euy, Cari yang lain asal bukan yang satu ini."
         return reply
 
     return None
@@ -71,19 +72,19 @@ def mute(update: Update, context: CallbackContext) -> str:
         f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}")
 
     if reason:
-        log += f"\n<b>Reason:</b> {reason}"
+        log += f"\n<b>Karena:</b> {reason}"
 
     if member.can_send_messages is None or member.can_send_messages:
         chat_permissions = ChatPermissions(can_send_messages=False)
         bot.restrict_chat_member(chat.id, user_id, chat_permissions)
         bot.sendMessage(
             chat.id,
-            f"Muted <b>{html.escape(member.user.first_name)}</b> with no expiration date!",
+            f"Dibisukan <b>{html.escape(member.user.first_name)}</b> tanpa batas waktu!",
             parse_mode=ParseMode.HTML)
         return log
 
     else:
-        message.reply_text("This user is already muted!")
+        message.reply_text("Orang ini udah dibisukan!")
 
     return ""
 
@@ -102,7 +103,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
     user_id = extract_user(message, args)
     if not user_id:
         message.reply_text(
-            "You'll need to either give me a username to unmute, or reply to someone to be unmuted."
+            "Kasih usernamenya dong.. kalo ga balas pesan orang yang mau dibisukan."
         )
         return ""
 
@@ -112,7 +113,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
         if (member.can_send_messages and member.can_send_media_messages and
                 member.can_send_other_messages and
                 member.can_add_web_page_previews):
-            message.reply_text("This user already has the right to speak.")
+            message.reply_text("Orang ini udah diperbolehin ngomong.")
         else:
             chat_permissions = ChatPermissions(
                 can_send_messages=True,
@@ -130,7 +131,7 @@ def unmute(update: Update, context: CallbackContext) -> str:
                 pass
             bot.sendMessage(
                 chat.id,
-                f"I shall allow <b>{html.escape(member.user.first_name)}</b> to text!",
+                f"Aku memperbolehkan <b>{html.escape(member.user.first_name)}</b> kau untuk chatan!",
                 parse_mode=ParseMode.HTML)
             return (
                 f"<b>{html.escape(chat.title)}:</b>\n"
@@ -140,8 +141,8 @@ def unmute(update: Update, context: CallbackContext) -> str:
             )
     else:
         message.reply_text(
-            "This user isn't even in the chat, unmuting them won't make them talk more than they "
-            "already do!")
+            "Orang ini udah ga ada dichatan!"
+            "Sudah dilakukan!")
 
     return ""
 
@@ -169,7 +170,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
 
     if not reason:
         message.reply_text(
-            "You haven't specified a time to mute this user for!")
+            "Ngasih waktu nya biar bener woi!")
         return ""
 
     split_reason = reason.split(None, 1)
@@ -192,7 +193,7 @@ def temp_mute(update: Update, context: CallbackContext) -> str:
         f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}\n"
         f"<b>Time:</b> {time_val}")
     if reason:
-        log += f"\n<b>Reason:</b> {reason}"
+        log += f"\n<b>Karena:</b> {reason}"
 
     try:
         if member.can_send_messages is None or member.can_send_messages:
