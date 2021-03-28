@@ -244,7 +244,7 @@ async def download_video(v_url):
     if song:
         await rkp.edit(f"`Bersiap untuk mengupload lagu:`\
         \n**Judul: {rip_data['title']}**\
-        \nby *Pengunggah:{rip_data['uploader']}*")
+        \nby *{rip_data['uploader']}*")
         await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp3",
@@ -263,7 +263,7 @@ async def download_video(v_url):
     elif video:
         await rkp.edit(f"`Bersiap untuk mengupload video :`\
         \n**Judul: {rip_data['title']}**\
-        \nby *Pengunggah:{rip_data['uploader']}*")
+        \nby *{rip_data['uploader']}*")
         await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp4",
