@@ -40,18 +40,18 @@ except:
 	from youtubesearchpython import SearchVideos 
 	pass
 
-@register(pattern="^/song (.*)")
+@register(pattern="^/lagu (.*)")
 async def download_video(v_url):
 
     lazy = v_url ; sender = await lazy.get_sender() ; me = await lazy.client.get_me()
 
     if not sender.id == me.id:
-        rkp = await lazy.reply("`processing...`")
+        rkp = await lazy.reply("`memproses...`")
     else:
-    	rkp = await lazy.edit("`processing...`")   
+    	rkp = await lazy.edit("`memproses...`")   
     url = v_url.pattern_match.group(1)
     if not url:
-         return await rkp.edit("`Error \nusage song <song name>`")
+         return await rkp.edit("`Error \n Ketik /lagu <judul laguny bro>`")
     search = SearchVideos(url, offset = 1, mode = "json", max_results = 1)
     test = search.result()
     p = json.loads(test)
@@ -59,9 +59,9 @@ async def download_video(v_url):
     try:
        url = q[0]['link']
     except:
-    	return await rkp.edit("`failed to find`")
+    	return await rkp.edit("`gagal mencari`")
     type = "audio"
-    await rkp.edit("`Preparing to download...`")
+    await rkp.edit("`Bersiap untuk mendownload..`")
     if type == "audio":
         opts = {
             'format':
@@ -81,7 +81,7 @@ async def download_video(v_url):
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
-                'preferredquality': '320',
+                'preferredquality': '256',
             }],
             'outtmpl':
             '%(id)s.mp3',
@@ -93,18 +93,18 @@ async def download_video(v_url):
         video = False
         song = True    
     try:
-        await rkp.edit("`Fetching data, please wait..`")
+        await rkp.edit("`Lagi ngambil data, tunggu bentar..`")
         with YoutubeDL(opts) as rip:
             rip_data = rip.extract_info(url)
     except DownloadError as DE:
         await rkp.edit(f"`{str(DE)}`")
         return
     except ContentTooShortError:
-        await rkp.edit("`The download content was too short.`")
+        await rkp.edit("`Error! Konten downloadnya kependekan.`")
         return
     except GeoRestrictedError:
         await rkp.edit(
-            "`Video is not available from your geographic location due to geographic restrictions imposed by a website.`"
+            "`Videonya ga tersedia dinegara kita bro.`"
         )
         return
     except MaxDownloadsReached:
@@ -127,7 +127,7 @@ async def download_video(v_url):
         return
     c_time = time.time()
     if song:
-        await rkp.edit(f"`Preparing to upload song:`\
+        await rkp.edit(f"`Mencl:`\
         \n**{rip_data['title']}**\
         \nby *{rip_data['uploader']}*")
         await v_url.client.send_file(
@@ -141,11 +141,11 @@ async def download_video(v_url):
             ],
             progress_callback=lambda d, t: asyncio.get_event_loop(
             ).create_task(
-                progress(d, t, v_url, c_time, "Uploading..",
+                progress(d, t, v_url, c_time, "Lagi diupload..",
                          f"{rip_data['title']}.mp3")))
         os.remove(f"{rip_data['id']}.mp3")
     elif video:
-        await rkp.edit(f"`Preparing to upload song :`\
+        await rkp.edit(f"`Bersiap mengupload:`\
         \n**{rip_data['title']}**\
         \nby *{rip_data['uploader']}*")
         await v_url.client.send_file(
@@ -155,7 +155,7 @@ async def download_video(v_url):
             caption=url,
             progress_callback=lambda d, t: asyncio.get_event_loop(
             ).create_task(
-                progress(d, t, v_url, c_time, "Uploading..",
+                progress(d, t, v_url, c_time, "Lagi diupload..",
                          f"{rip_data['title']}.mp4")))
         os.remove(f"{rip_data['id']}.mp4")
 
@@ -164,12 +164,12 @@ async def download_video(v_url):
 async def download_video(v_url):  
     lazy = v_url ; sender = await lazy.get_sender() ; me = await lazy.client.get_me()
     if not sender.id == me.id:
-        rkp = await lazy.reply("`processing...`")
+        rkp = await lazy.reply("`memproses...`")
     else:
-    	rkp = await lazy.edit("`processing...`")   
+    	rkp = await lazy.edit("`memproses...`")   
     url = v_url.pattern_match.group(1)
     if not url:
-         return await rkp.edit("`Error \nusage song <song name>`")
+         return await rkp.edit("`Error \nKetik /video Judul Lagunya bro.`")
     search = SearchVideos(url, offset = 1, mode = "json", max_results = 1)
     test = search.result()
     p = json.loads(test)
@@ -177,9 +177,9 @@ async def download_video(v_url):
     try:
        url = q[0]['link']
     except:
-    	return await rkp.edit("`failed to find`")
+    	return await rkp.edit("`gagal mencari`")
     type = "audio"
-    await rkp.edit("`Preparing to download...`")
+    await rkp.edit("`Bersiap untuk mendownload...`")
     if type == "audio":
         opts = {
             'format':
@@ -208,14 +208,14 @@ async def download_video(v_url):
         song = False
         video = True
     try:
-        await rkp.edit("`Fetching data, please wait..`")
+        await rkp.edit("`Lagi ngambil data, tunggu bentar..`")
         with YoutubeDL(opts) as rip:
             rip_data = rip.extract_info(url)
     except DownloadError as DE:
         await rkp.edit(f"`{str(DE)}`")
         return
     except ContentTooShortError:
-        await rkp.edit("`The download content was too short.`")
+        await rkp.edit("`Video yang didownload kependekan.`")
         return
     except GeoRestrictedError:
         await rkp.edit(
@@ -242,9 +242,9 @@ async def download_video(v_url):
         return
     c_time = time.time()
     if song:
-        await rkp.edit(f"`Preparing to upload song `\
-        \n**{rip_data['title']}**\
-        \nby *{rip_data['uploader']}*")
+        await rkp.edit(f"`Bersiap untuk mengupload lagu:`\
+        \n**Judul: {rip_data['title']}**\
+        \nby *Pengunggah:{rip_data['uploader']}*")
         await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp3",
@@ -256,14 +256,14 @@ async def download_video(v_url):
             ],
             progress_callback=lambda d, t: asyncio.get_event_loop(
             ).create_task(
-                progress(d, t, v_url, c_time, "Uploading..",
+                progress(d, t, v_url, c_time, "Lagi diupload..",
                          f"{rip_data['title']}.mp3")))
         os.remove(f"{rip_data['id']}.mp3")
         await v_url.delete()
     elif video:
-        await rkp.edit(f"`Preparing to upload video song :`\
-        \n**{rip_data['title']}**\
-        \nby *{rip_data['uploader']}*")
+        await rkp.edit(f"`Bersiap untuk mengupload video :`\
+        \n**Judul: {rip_data['title']}**\
+        \nby *Pengunggah:{rip_data['uploader']}*")
         await v_url.client.send_file(
             v_url.chat_id,
             f"{rip_data['id']}.mp4",
@@ -271,16 +271,16 @@ async def download_video(v_url):
             caption=rip_data['title'],
             progress_callback=lambda d, t: asyncio.get_event_loop(
             ).create_task(
-                progress(d, t, v_url, c_time, "Uploading..",
+                progress(d, t, v_url, c_time, "Lagi diupload..",
                          f"{rip_data['title']}.mp4")))
         os.remove(f"{rip_data['id']}.mp4")
         await rkp.delete()
 
 
 __help__ = """
- ➩ /song <songname artist(optional)>: uploads the song in it's best quality available
+ ➩ /lagu <judul lagu / dengan nama artis(ga wajib)>: Mengupload lagu di 256kbps.
 
- ➩ /video <songname artist(optional)>: uploads the video song in it's best quality available
+ ➩ /video <judul lagu / dengan nama artist(ga wajib)>: Mengupload MV (Music Video) Dikualitas terbaik.
 """
 
-__mod_name__ = "Songs"
+__mod_name__ = "Lagu"
