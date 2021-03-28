@@ -27,7 +27,7 @@ def get_readable_time(seconds: int) -> str:
     count = 0
     ping_time = ""
     time_list = []
-    time_suffix_list = ["s", "m", "h", "days"]
+    time_suffix_list = ["detik", "menit", "jam", "hari"]
 
     while count < 4:
         count += 1
@@ -218,8 +218,8 @@ def start(update: Update, context: CallbackContext):
                     ]]))
     else:
         update.effective_message.reply_text(
-            "Aku udah bangun kok!\n<b>Aku udah bangun dari:</b> <code>{}</code>"
-            .format(uptime),
+            "Aku udah bangun kok!\n<b>Aku udah bangun dari:</b> <code>{}</code>
+            .format(uptime) yang lalu",
             parse_mode=ParseMode.HTML)
 
 # for test purposes
@@ -535,7 +535,7 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "I am now online!")
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "Aku udah online nih!")
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!")
