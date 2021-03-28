@@ -61,7 +61,7 @@ async def download_video(v_url):
     except:
     	return await rkp.edit("`gagal mencari`")
     type = "audio"
-    await rkp.edit("`Bersiap untuk mendownload..`")
+    await rkp.edit("`Mencoba untuk mendownload..`")
     if type == "audio":
         opts = {
             'format':
@@ -81,7 +81,7 @@ async def download_video(v_url):
             'postprocessors': [{
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
-                'preferredquality': '256',
+                'preferredquality': '320',
             }],
             'outtmpl':
             '%(id)s.mp3',
@@ -127,7 +127,7 @@ async def download_video(v_url):
         return
     c_time = time.time()
     if song:
-        await rkp.edit(f"`Mencl:`\
+        await rkp.edit(f"`Mencoba mengupload lagu:`\
         \n**{rip_data['title']}**\
         \nby *{rip_data['uploader']}*")
         await v_url.client.send_file(
@@ -145,7 +145,7 @@ async def download_video(v_url):
                          f"{rip_data['title']}.mp3")))
         os.remove(f"{rip_data['id']}.mp3")
     elif video:
-        await rkp.edit(f"`Bersiap mengupload:`\
+        await rkp.edit(f"`Mencoba mengupload lagu:`\
         \n**{rip_data['title']}**\
         \nby *{rip_data['uploader']}*")
         await v_url.client.send_file(
@@ -179,7 +179,7 @@ async def download_video(v_url):
     except:
     	return await rkp.edit("`gagal mencari`")
     type = "audio"
-    await rkp.edit("`Bersiap untuk mendownload...`")
+    await rkp.edit("`Mencoba untuk mendownload...`")
     if type == "audio":
         opts = {
             'format':
@@ -261,8 +261,8 @@ async def download_video(v_url):
         os.remove(f"{rip_data['id']}.mp3")
         await v_url.delete()
     elif video:
-        await rkp.edit(f"`Bersiap untuk mengupload video :`\
-        \n**Judul: {rip_data['title']}**\
+        await rkp.edit(f"`Bersiap untuk mengupload video:`\
+        \n**{rip_data['title']}**\
         \nby *{rip_data['uploader']}*")
         await v_url.client.send_file(
             v_url.chat_id,
