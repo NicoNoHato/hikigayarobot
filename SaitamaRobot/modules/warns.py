@@ -80,7 +80,7 @@ def warn(user: User,
     if warner:
         warner_tag = mention_html(warner.id, warner.first_name)
     else:
-        warner_tag = "Automated warn filter."
+        warner_tag = "Filter Otomatis Peringatan."
 
     limit, soft_warn = sql.get_warn_setting(chat.id)
     num_warns, reasons = sql.warn_user(user.id, chat.id, reason)
@@ -89,14 +89,14 @@ def warn(user: User,
         if soft_warn:  # punch
             chat.unban_member(user.id)
             reply = (
-                f"<code>❕</code><b>Punch Event</b>\n"
+                f"<code>❕</code><b>Mode Memukul</b>\n"
                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<code> </code><b>•  Count:</b> {limit}")
 
         else:  # ban
             chat.kick_member(user.id)
             reply = (
-                f"<code>❕</code><b>Ban Event</b>\n"
+                f"<code>❕</code><b>Mode Banned</b>\n"
                 f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<code> </code><b>•  Count:</b> {limit}")
 
@@ -109,34 +109,34 @@ def warn(user: User,
                       f"#WARN_BAN\n"
                       f"<b>Admin:</b> {warner_tag}\n"
                       f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
-                      f"<b>Reason:</b> {reason}\n"
+                      f"<b>Karena:</b> {reason}\n"
                       f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
 
     else:
         keyboard = InlineKeyboardMarkup([[
             InlineKeyboardButton(
-                "🔘 Remove warn", callback_data="rm_warn({})".format(user.id))
+                "🔘 Hilangkan Peringatan", callback_data="rm_warn({})".format(user.id))
         ]])
 
         reply = (
-            f"<code>❕</code><b>Warn Event</b>\n"
+            f"<code>❕</code><b>Mode Peringatan</b>\n"
             f"<code> </code><b>•  User:</b> {mention_html(user.id, user.first_name)}\n"
             f"<code> </code><b>•  Count:</b> {num_warns}/{limit}")
         if reason:
-            reply += f"\n<code> </code><b>•  Reason:</b> {html.escape(reason)}"
+            reply += f"\n<code> </code><b>•  Karena:</b> {html.escape(reason)}"
 
         log_reason = (f"<b>{html.escape(chat.title)}:</b>\n"
                       f"#WARN\n"
                       f"<b>Admin:</b> {warner_tag}\n"
                       f"<b>User:</b> {mention_html(user.id, user.first_name)}\n"
-                      f"<b>Reason:</b> {reason}\n"
+                      f"<b>Karena:</b> {reason}\n"
                       f"<b>Counts:</b> <code>{num_warns}/{limit}</code>")
 
     try:
         message.reply_text(
             reply, reply_markup=keyboard, parse_mode=ParseMode.HTML)
     except BadRequest as excp:
-        if excp.message == "Reply message not found":
+        if excp.message == "Pesan balasan tidak ditemukan":
             # Do not reply
             message.reply_text(
                 reply,
@@ -162,7 +162,7 @@ def button(update: Update, context: CallbackContext) -> str:
         res = sql.remove_warn(user_id, chat.id)
         if res:
             update.effective_message.edit_text(
-                "Warn removed by {}.".format(
+                "Peringatan dihapus oleh: {}.".format(
                     mention_html(user.id, user.first_name)),
                 parse_mode=ParseMode.HTML,
             )
@@ -175,7 +175,7 @@ def button(update: Update, context: CallbackContext) -> str:
             )
         else:
             update.effective_message.edit_text(
-                "User already has no warns.", parse_mode=ParseMode.HTML)
+                "User sudah tidak ada peringatan.", parse_mode=ParseMode.HTML)
 
     return ""
 
@@ -206,7 +206,7 @@ def warn_user(update: Update, context: CallbackContext) -> str:
             return warn(
                 chat.get_member(user_id).user, chat, reason, message, warner)
     else:
-        message.reply_text("That looks like an invalid User ID to me.")
+        message.reply_text("Aku ga ngeliat user id disitu.")
     return ""
 
 
@@ -224,14 +224,14 @@ def reset_warns(update: Update, context: CallbackContext) -> str:
 
     if user_id:
         sql.reset_warns(user_id, chat.id)
-        message.reply_text("Warns have been reset!")
+        message.reply_text("Peringatan telah direset!")
         warned = chat.get_member(user_id).user
         return (f"<b>{html.escape(chat.title)}:</b>\n"
                 f"#RESETWARNS\n"
                 f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
                 f"<b>User:</b> {mention_html(warned.id, warned.first_name)}")
     else:
-        message.reply_text("No user has been designated!")
+        message.reply_text("Gak ada user yang diperingatkan!")
     return ""
 
 
@@ -249,7 +249,7 @@ def warns(update: Update, context: CallbackContext):
 
         if reasons:
             text = (
-                f"This user has {num_warns}/{limit} warns, for the following reasons:"
+                f"User ini sudah {num_warns}/{limit} diperingatkan, Karena alasan:"
             )
             for reason in reasons:
                 text += f"\n • {reason}"
@@ -259,10 +259,10 @@ def warns(update: Update, context: CallbackContext):
                 update.effective_message.reply_text(msg)
         else:
             update.effective_message.reply_text(
-                f"User has {num_warns}/{limit} warns, but no reasons for any of them."
+                f"User punya {num_warns}/{limit} peringatan, tapi tanpa alasan."
             )
     else:
-        update.effective_message.reply_text("This user doesn't have any warns!")
+        update.effective_message.reply_text("User ini ga punya satupun peringatan!")
 
 
 # Dispatcher handler stop - do not async
