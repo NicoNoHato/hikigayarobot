@@ -25,37 +25,37 @@ def report_setting(update: Update, context: CallbackContext):
 
     if chat.type == chat.PRIVATE:
         if len(args) >= 1:
-            if args[0] in ("yes", "on"):
+            if args[0] in ("ya", "on"):
                 sql.set_user_setting(chat.id, True)
                 msg.reply_text(
-                    "Turned on reporting! You'll be notified whenever anyone reports something."
+                    "Fitur Laporkan dinyalakan! kamu bakal dapat notif kalo ada yang melapor"
                 )
 
-            elif args[0] in ("no", "off"):
+            elif args[0] in ("ga", "off"):
                 sql.set_user_setting(chat.id, False)
                 msg.reply_text(
-                    "Turned off reporting! You wont get any reports.")
+                    "Fitur Laporkan dimatikan. Kamu ga akan dapat laporan apa apa.")
         else:
             msg.reply_text(
-                f"Your current report preference is: `{sql.user_should_report(chat.id)}`",
+                f"Fitur Laporkan sedang: `{sql.user_should_report(chat.id)}`",
                 parse_mode=ParseMode.MARKDOWN)
 
     else:
         if len(args) >= 1:
-            if args[0] in ("yes", "on"):
+            if args[0] in ("ya", "on"):
                 sql.set_chat_setting(chat.id, True)
                 msg.reply_text(
-                    "Turned on reporting! Admins who have turned on reports will be notified when /report "
-                    "or @admin is called.")
+                    "Fitur Laporkan dinyalakan! Admin yang menyalakan fitur ini akan mendapat notif ketika seseorang mengetik /lapor"
+                    "Atau ketika @admin dipanggil")
 
-            elif args[0] in ("no", "off"):
+            elif args[0] in ("ga", "off"):
                 sql.set_chat_setting(chat.id, False)
                 msg.reply_text(
-                    "Turned off reporting! No admins will be notified on /report or @admin."
+                    "Fitur dimatikan. Ga bakal ada admin dinotif ketika ada yang me /lapor kan"
                 )
         else:
             msg.reply_text(
-                f"This group's current setting is: `{sql.chat_should_report(chat.id)}`",
+                f"Fitur Laporkan sedang: `{sql.chat_should_report(chat.id)}`",
                 parse_mode=ParseMode.MARKDOWN)
 
 
@@ -76,36 +76,36 @@ def report(update: Update, context: CallbackContext) -> str:
         message = update.effective_message
 
         if not args:
-            message.reply_text("Add a reason for reporting first.")
+            message.reply_text("Tambahin alasannya dulu.")
             return ""
 
         if user.id == reported_user.id:
-            message.reply_text("Uh yeah, Sure sure...maso much?")
+            message.reply_text("Emm.. iya iya apa masih kurang banyak laporannya?")
             return ""
 
         if user.id == bot.id:
-            message.reply_text("Nice try.")
+            message.reply_text("Suatu percobaan yang mantap.")
             return ""
 
         if reported_user.id in REPORT_IMMUNE_USERS:
-            message.reply_text("Uh? You reporting a disaster?")
+            message.reply_text("Wadu lu nantangin siapa?")
             return ""
 
         if chat.username and chat.type == Chat.SUPERGROUP:
 
-            reported = f"{mention_html(user.id, user.first_name)} reported {mention_html(reported_user.id, reported_user.first_name)} to the admins!"
+            reported = f"{mention_html(user.id, user.first_name)} dilaporkan {mention_html(reported_user.id, reported_user.first_name)} ke admin!"
 
             msg = (
-                f"<b>⚠️ Report: </b>{html.escape(chat.title)}\n"
-                f"<b> • Report by:</b> {mention_html(user.id, user.first_name)}(<code>{user.id}</code>)\n"
-                f"<b> • Reported user:</b> {mention_html(reported_user.id, reported_user.first_name)} (<code>{reported_user.id}</code>)\n"
+                f"<b>⚠️ Laporan: </b>{html.escape(chat.title)}\n"
+                f"<b> • Dilaporkan oleh:</b> {mention_html(user.id, user.first_name)}(<code>{user.id}</code>)\n"
+                f"<b> • Kang lapor:</b> {mention_html(reported_user.id, reported_user.first_name)} (<code>{reported_user.id}</code>)\n"
             )
-            link = f'<b> • Reported message:</b> <a href="https://t.me/{chat.username}/{message.reply_to_message.message_id}">click here</a>'
+            link = f'<b> • Pesan laporan:</b> <a href="https://t.me/{chat.username}/{message.reply_to_message.message_id}">klik disini</a>'
             should_forward = False
             keyboard = [
                 [
                     InlineKeyboardButton(
-                        u"➡ Message",
+                        u"➡ Pesannya",
                         url=f"https://t.me/{chat.username}/{message.reply_to_message.message_id}"
                     )
                 ],
@@ -121,15 +121,15 @@ def report(update: Update, context: CallbackContext) -> str:
                 ],
                 [
                     InlineKeyboardButton(
-                        u"❎ Delete Message",
+                        u"❎ Hapus pesan",
                         callback_data=f"report_{chat.id}=delete={reported_user.id}={message.reply_to_message.message_id}"
                     )
                 ]
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
         else:
-            reported = f"{mention_html(user.id, user.first_name)} reported " \
-                       f"{mention_html(reported_user.id, reported_user.first_name)} to the admins!"
+            reported = f"{mention_html(user.id, user.first_name)} sudah dilaporkan" \
+                       f"{mention_html(reported_user.id, reported_user.first_name)} ke admin"
 
             msg = f'{mention_html(user.id, user.first_name)} is calling for admins in "{html.escape(chat_name)}"!'
             link = ""
@@ -220,10 +220,10 @@ def buttons(update: Update, context: CallbackContext):
         try:
             bot.kickChatMember(splitter[0], splitter[2])
             bot.unbanChatMember(splitter[0], splitter[2])
-            query.answer("✅ Succesfully kicked")
+            query.answer("✅ Berhasil mengkick")
             return ""
         except Exception as err:
-            query.answer("🛑 Failed to Punch")
+            query.answer("🛑 Gagal mengmukul")
             bot.sendMessage(
                 text=f"Error: {err}",
                 chat_id=query.message.chat_id,
@@ -231,25 +231,25 @@ def buttons(update: Update, context: CallbackContext):
     elif splitter[1] == "banned":
         try:
             bot.kickChatMember(splitter[0], splitter[2])
-            query.answer("✅  Succesfully Banned")
+            query.answer("✅  Berhasil dibanned")
             return ""
         except Exception as err:
             bot.sendMessage(
                 text=f"Error: {err}",
                 chat_id=query.message.chat_id,
                 parse_mode=ParseMode.HTML)
-            query.answer("🛑 Failed to Ban")
+            query.answer("🛑 Gagal Mengbanned")
     elif splitter[1] == "delete":
         try:
             bot.deleteMessage(splitter[0], splitter[3])
-            query.answer("✅ Message Deleted")
+            query.answer("✅ Pesan dihapus")
             return ""
         except Exception as err:
             bot.sendMessage(
                 text=f"Error: {err}",
                 chat_id=query.message.chat_id,
                 parse_mode=ParseMode.HTML)
-            query.answer("🛑 Failed to delete message!")
+            query.answer("🛑 Gagal menghapus pesan!")
 
 
 __help__ = """
