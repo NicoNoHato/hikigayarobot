@@ -52,20 +52,19 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {}, my name is {}! 
-I am an Anime themed group management bot.
-Build by weebs for weebs, I specialize in managing anime and similar themed groups.
-You can find my list of available commands with /help.
+Halo {}, Namaku {}! 
+Aku Membantu di Grup @AnimeIndoReborn.
+Jika kamu butuh bantuan tentang perintah ketikan /help.
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{}*.
-I'm HIKIGAYA & I help admins to manage their groups! Have a look at the following for an idea of some of \
-the things I can help you with.
-*Main* commands available:
- • /help: PM's you this message.
- • /help <module name>: PM's you info about that module.
- • /donate: information on how to donate!
+Halo kamu! Aku *{}*.
+Kamu bisa lihat daftar perintah bantuan dibawah ini..
+Semoga aku dapat membantumu ^-^
+*Perintah* Utama yang dapat digunakan:
+ • /help: Menunjukan pesan ini ke kamu.
+ • /help <Nama Modul>: Menunjukan tentang Modulnya.
+ • /donate: Informasi untuk donasi.
  • /settings:
    • in PM: will send you your settings for all supported modules.
    • in a group: will redirect you to pm, with all that chat's settings.
@@ -75,12 +74,9 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG = "https://telegra.ph/file/ab20e874217adfabe42df.jpg"
+SAITAMA_IMG = "https://telegra.ph/file/5f21706cdf35546cbd4e0.jpg"
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
-Senku is hosted on one of Heroku's Servers and doesn't require any donations as of now but \
-You can donate to the original writer of the Base code, Paul
-There are two ways of supporting him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
+DONATE_STRING = """Ehem. Cukup Join Grup Kami @AnimeIndoReborn dan itu akan membuat Aku senang :)"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -198,17 +194,17 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text=" 👑 Summon Me ",
+                            text=" 👑 Summon Aku ",
                             url="t.me/{}?startgroup=true".format(
                                 context.bot.username)),
                          InlineKeyboardButton(
-                             text=" 🔔 support ",
-                             url="https://t.me/hikigayasupport")
+                             text=" 🔔 Grup Chat ",
+                             url="https://t.me/AnimeIndoReborn")
                      ],
                      [
                         InlineKeyboardButton(
                             text=" ✨ Help ",
-                            url="https://t.me/hikigaya_robot?start=help"),
+                            url="https://t.me/AiKawai_bot?start=help"),
                          
                      ],
                      [
@@ -219,7 +215,7 @@ def start(update: Update, context: CallbackContext):
                     ]]))
     else:
         update.effective_message.reply_text(
-            "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>"
+            "Aku udah bangun kok!\n<b>Aku udah bangun dari:</b> <code>{}</code>"
             .format(uptime),
             parse_mode=ParseMode.HTML)
 
@@ -266,7 +262,7 @@ def help_button(update, context):
     try:
         if mod_match:
             module = mod_match.group(1)
-            text = ("Here is the help for the *{}* module:\n".format(
+            text = ("Ini bantuannya untuk modul *{}*:\n".format(
                 HELPABLE[module].__mod_name__) + HELPABLE[module].__help__)
             query.message.edit_text(
                 text=text,
@@ -274,7 +270,7 @@ def help_button(update, context):
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(
-                        text="Back", callback_data="help_back")
+                        text="Kembali", callback_data="help_back")
                 ]]))
 
         elif prev_match:
@@ -327,10 +323,10 @@ def get_help(update: Update, context: CallbackContext):
                 ]]))
             return
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            "Chat aku untuk melihat daftar perintah yang dapat digunakan.",
             reply_markup=InlineKeyboardMarkup([[
                 InlineKeyboardButton(
-                    text="Help",
+                    text="Klik Disini",
                     url="t.me/{}?start=help".format(context.bot.username))
             ]]))
         return
@@ -536,7 +532,7 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "I am now online!")
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "Aku udah disini!")
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!")
