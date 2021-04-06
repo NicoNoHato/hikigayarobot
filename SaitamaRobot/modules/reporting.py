@@ -45,7 +45,7 @@ def report_setting(update: Update, context: CallbackContext):
             if args[0] in ("ya", "on"):
                 sql.set_chat_setting(chat.id, True)
                 msg.reply_text(
-                    "Fitur Laporkan dinyalakan! Admin yang menyalakan fitur ini akan mendapat notif ketika seseorang mengetik /lapor"
+                    "Fitur Laporkan dinyalakan! Laporan dari perintah /lapor akan dikirimkan ke admin."
                     "Atau ketika @admin dipanggil")
 
             elif args[0] in ("ga", "off"):
@@ -98,7 +98,7 @@ def report(update: Update, context: CallbackContext) -> str:
             msg = (
                 f"<b>⚠️ Laporan: </b>{html.escape(chat.title)}\n"
                 f"<b> • Dilaporkan oleh:</b> {mention_html(user.id, user.first_name)}(<code>{user.id}</code>)\n"
-                f"<b> • Kang lapor:</b> {mention_html(reported_user.id, reported_user.first_name)} (<code>{reported_user.id}</code>)\n"
+                f"<b> • Kang langgar:</b> {mention_html(reported_user.id, reported_user.first_name)} (<code>{reported_user.id}</code>)\n"
             )
             link = f'<b> • Pesan laporan:</b> <a href="https://t.me/{chat.username}/{message.reply_to_message.message_id}">klik disini</a>'
             should_forward = False
@@ -189,7 +189,7 @@ def report(update: Update, context: CallbackContext) -> str:
                     LOGGER.exception("Exception while reporting user")
 
         message.reply_to_message.reply_text(
-            f"{mention_html(user.id, user.first_name)} reported the message to the admins.",
+            f"{mention_html(user.id, user.first_name)} Melaporkan pesannya ke admins",
             parse_mode=ParseMode.HTML)
         return msg
 
@@ -264,7 +264,7 @@ __help__ = """
 """
 
 SETTING_HANDLER = CommandHandler("reports", report_setting)
-REPORT_HANDLER = CommandHandler("report", report, filters=Filters.group)
+REPORT_HANDLER = CommandHandler("lapor", report, filters=Filters.group)
 ADMIN_REPORT_HANDLER = MessageHandler(Filters.regex(r"(?i)@admin(s)?"), report)
 
 REPORT_BUTTON_USER_HANDLER = CallbackQueryHandler(buttons, pattern=r"report_")
