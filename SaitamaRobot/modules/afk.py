@@ -142,7 +142,7 @@ def check_afk(update, context, user_id, fst_name, userc_id):
                 time
             )
             update.effective_message.reply_text(res)
-        else:
+    else:
             res = "{} sedang afk sejak <code>{}</code> yang lalu.\nKarena: <code>{}</code>".format(
                 html.escape(fst_name, time), 
                 html.escape(user.reason)
