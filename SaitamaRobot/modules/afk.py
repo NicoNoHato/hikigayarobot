@@ -137,11 +137,16 @@ def check_afk(update, context, user_id, fst_name, userc_id):
         time = humanize.naturaldelta(datetime.now() - user.time)
         
     if not user.reason:
-            res = "{} sudah afk sejak <code>{}</code> yang lalu".format(fst_name, time)
+            res = "{} sudah afk sejak <code>{}</code> yang lalu".format(
+                fst_name, 
+                time
+            )
             update.effective_message.reply_text(res)
         else:
             res = "{} sedang afk sejak <code>{}</code> yang lalu.\nKarena: <code>{}</code>".format(
-                html.escape(fst_name, time), html.escape(user.reason))
+                html.escape(fst_name, time), 
+                html.escape(user.reason)
+            )
             update.effective_message.reply_text(res, parse_mode="html")
             
 __help__ = """
