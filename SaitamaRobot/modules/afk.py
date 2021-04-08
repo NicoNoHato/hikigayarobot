@@ -128,7 +128,6 @@ def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: 
         user = sql.check_afk_status(user_id)
     if int(userc_id) == int(user_id):
                 return
-       time = humanize.naturaldelta(datetime.now()
         if not user.reason:
             res = "{} sudah afk sejak <code>{}</code> yang lalu".format(fst_name, time)
             update.effective_message.reply_text(res)
