@@ -47,10 +47,6 @@ html2text
 humanize
 future
 emoji
-sqlalchemy
-lxml
-beautifulsoup4
-requests
 python-telegram-bot==13.4.1
 psycopg2-binary
 feedparser
@@ -62,9 +58,7 @@ psutil
 CurrencyConverter
 bleach
 gpytranslate
-markdown2
 wikipedia
-telethon
 pyrogram
 tgcrypto
 alphabet_detector
@@ -75,4 +69,3 @@ ujson
 hachoir
 pybase64
 pretty_errors
-humanize
