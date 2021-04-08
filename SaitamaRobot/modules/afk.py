@@ -128,7 +128,7 @@ def reply_afk(update: Update, context: CallbackContext):
         check_afk(update, context, user_id, fst_name, userc_id)
 
 
-def check_afk(update, context, user_id, fst_name, userc_id):
+def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: str, userc_id: int):
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
         if int(userc_id) == int(user_id):
