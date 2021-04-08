@@ -1,9 +1,5 @@
-import random
-import html
-from datetime import datetime
-import humanize
 
-from SaitamaRobot import dispatcher
+SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import (
     DisableAbleCommandHandler,
     DisableAbleMessageHandler,
@@ -122,23 +118,26 @@ def reply_afk(update: Update, context: CallbackContext):
         fst_name = message.reply_to_message.from_user.first_name
         check_afk(update, context, user_id, fst_name, userc_id)
 
+    elif message.reply_to_message:
+        user_id = message.reply_to_message.from_user.id
+        fst_name = message.reply_to_message.from_user.first_name
+        check_afk(update, context, user_id, fst_name, userc_id)
 
-def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: str, userc_id: int):
+
+def check_afk(update, context, user_id, fst_name, userc_id):
     if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
-    if int(userc_id) == int(user_id):
+        if not user.reason:
+            if int(userc_id) == int(user_id):
                 return
         if not user.reason:
             res = "{} sudah afk sejak <code>{}</code> yang lalu".format(fst_name, time)
             update.effective_message.reply_text(res)
         else:
             res = "{} sedang afk sejak <code>{}</code> yang lalu.\nKarena: <code>{}</code>".format(
-                html.escape(fst_name),
-                html.escape(time),
-                timehtml.escape(user.reason), html.escape(user.reason))
+                html.escape(fst_name), html.escape(user.reason))
             update.effective_message.reply_text(res, parse_mode="html")
-
-
+            
 __help__ = """
  • `/afk <reason>`*:* Menandai kamu sedang AFK(away from keyboard).
  • `brb <reason>`*:* Sama kaya perintah afk, Tapi bukan sebuah perintah.
