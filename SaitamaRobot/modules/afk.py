@@ -1,8 +1,13 @@
-import random, html
+import random
+import html
+from datetime import datetime
+import humanize
 
 from SaitamaRobot import dispatcher
-from SaitamaRobot.modules.disable import (DisableAbleCommandHandler,
-                                          DisableAbleMessageHandler)
+from SaitamaRobot.modules.disable import (
+    DisableAbleCommandHandler,
+    DisableAbleMessageHandler,
+)
 from SaitamaRobot.modules.sql import afk_sql as sql
 from SaitamaRobot.modules.users import get_user_id
 from telegram import MessageEntity, Update
@@ -129,12 +134,13 @@ def check_afk(update, context, user_id, fst_name, userc_id):
         if not user.reason:
             if int(userc_id) == int(user_id):
                 return
+            time = humanize.naturaldelta(datetime.now() - user.time)
         if not user.reason:
             res = "{} sudah afk sejak <code>{}</code> yang lalu".format(fst_name, time)
             update.effective_message.reply_text(res)
         else:
             res = "{} sedang afk sejak <code>{}</code> yang lalu.\nKarena: <code>{}</code>".format(
-                html.escape(fst_name), html.escape(user.reason))
+                html.escape(fst_name, time), html.escape(user.reason))
             update.effective_message.reply_text(res, parse_mode="html")
             
 __help__ = """
