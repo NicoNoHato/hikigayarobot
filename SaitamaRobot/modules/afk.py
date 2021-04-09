@@ -128,23 +128,19 @@ def reply_afk(update: Update, context: CallbackContext):
         check_afk(update, context, user_id, fst_name, userc_id)
 
 
-def check_afk(update: Update, context: CallbackContext, user_id: int, fst_name: str, userc_id: int):
-    if sql.is_afk(user_id):
+if sql.is_afk(user_id):
         user = sql.check_afk_status(user_id)
-        if int(userc_id) == int(user_id):
-            return
-        
-        time = humanize.naturaldelta(datetime.now() - user.time)
-        
-    if not user.reason:
-            res = "{} sudah afk sejak <code>{}</code> yang lalu".format(
-                fst_name, 
-                time
+        if not user.reason:
+            if int(userc_id) == int(user_id):
+                return
+        if not user.reason:
+            res = "{} telah afk".format(
+                fst_name
             )
             update.effective_message.reply_text(res)
-    else:
-            res = "{} sedang afk sejak <code>{}</code> yang lalu.\nKarena: <code>{}</code>".format(
-                html.escape(fst_name, time), 
+        else:
+            res = "{} sedang afk\nKarena: <code>{}</code>".format(
+                html.escape(fst_name), 
                 html.escape(user.reason)
             )
             update.effective_message.reply_text(res, parse_mode="html")
