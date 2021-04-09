@@ -1,8 +1,3 @@
-import random
-import html
-from datetime import datetime
-import humanize
-
 from SaitamaRobot import dispatcher
 from SaitamaRobot.modules.disable import (
     DisableAbleCommandHandler,
