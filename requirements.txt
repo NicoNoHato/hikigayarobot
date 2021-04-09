@@ -3,6 +3,7 @@ emoji
 lxml
 beautifulsoup4
 requests
+sqlalchemy
 python-telegram-bot==12.8
 psycopg2-binary
 feedparser
@@ -49,4 +50,3 @@ validators
 youtube_dl
 html2text
 humanize
-sqlalchemy
