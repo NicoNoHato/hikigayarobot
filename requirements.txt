@@ -32,6 +32,7 @@ pyrate-limiter
 cachetools
 fontTools
 gtts
+pbot
 pyrogram
 redis
 nekos.py
