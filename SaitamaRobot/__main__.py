@@ -4,6 +4,24 @@ import re
 from sys import argv
 from typing import Optional
 
+from SaitamaRobot import (
+    ALLOW_EXCL,
+    CERT_PATH,
+    DONATION_LINK,
+    LOGGER,
+    OWNER_ID,
+    PORT,
+    SUPPORT_CHAT,
+    TOKEN,
+    URL,
+    WEBHOOK,
+    SUPPORT_CHAT,
+    dispatcher,
+    StartTime,
+    telethn,
+    updater,
+    kp,
+)
 
 from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
                           OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK, pbot,
