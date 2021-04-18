@@ -36,6 +36,7 @@ def check_afk_status(user_id):
     except:
     session.rollback()
     raise
+    
     finally:
     session.close()
 
