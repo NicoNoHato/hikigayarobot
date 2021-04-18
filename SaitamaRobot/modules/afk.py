@@ -9,8 +9,8 @@ from telegram import MessageEntity, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, Filters, MessageHandler, run_async
 
-AFK_GROUP = 7
-AFK_REPLY_GROUP = 8
+AFK_GROUP = 20
+AFK_REPLY_GROUP = 20
 
 
 @run_async
