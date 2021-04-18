@@ -33,12 +33,12 @@ def is_afk(user_id):
 def check_afk_status(user_id):
     try:
         return SESSION.query(AFK).get(user_id)
-    except:
-    session.rollback()
-    raise
     
+    except:
+        session.rollback()
+        raise
     finally:
-    session.close()
+        session.close()
 
 
 def set_afk(user_id, reason=""):
