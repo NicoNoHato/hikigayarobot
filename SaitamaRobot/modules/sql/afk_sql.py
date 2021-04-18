@@ -90,6 +90,9 @@ def __load_afk_users():
         AFK_USERS = {
             user.user_id: user.reason for user in all_afk if user.is_afk
         }
+    except:
+        session.rollback()
+        raise
     finally:
         SESSION.close()
 
