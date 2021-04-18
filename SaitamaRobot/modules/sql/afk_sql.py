@@ -35,10 +35,10 @@ def check_afk_status(user_id):
         return SESSION.query(AFK).get(user_id)
     
     except:
-        session.rollback()
+        SESSION.rollback()
         raise
     finally:
-        session.close()
+        SESSION.close()
 
 
 def set_afk(user_id, reason=""):
@@ -91,7 +91,7 @@ def __load_afk_users():
             user.user_id: user.reason for user in all_afk if user.is_afk
         }
     except:
-        session.rollback()
+        SESSION.rollback()
         raise
     finally:
         SESSION.close()
