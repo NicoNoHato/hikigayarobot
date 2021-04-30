@@ -27,7 +27,7 @@ def wiki(update: Update, context: CallbackContext):
     if res:
         result = f"<b>{search}</b>\n\n"
         result += f"<i>{res}</i>\n"
-        result += f"""<a href="https://id.wikipedia.org/wiki/{search.replace(" ", "%20")}">Read more...</a>"""
+        result += f"""<a href="id.m.wikipedia.org/wiki/{search.replace(" ", "%20")}">Read more...</a>"""
         if len(result) > 4000:
             with open("result.txt", 'w') as f:
                 f.write(f"{result}\n\nUwU OwO OmO UmU")
