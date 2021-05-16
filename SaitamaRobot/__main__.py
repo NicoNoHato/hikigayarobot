@@ -209,8 +209,8 @@ def start(update: Update, context: CallbackContext):
                      ],
                      [
                         InlineKeyboardButton(
-                             text=" ❤️ Source Code ",
-                             url="https://github.com/Nksama/hikigayarobot")
+                             text=" 📸 INSTADMIN ",
+                             url="https://www.instagram.com/akwardy8/")
                     
                     ]]))
     else:
