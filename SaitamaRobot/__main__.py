@@ -53,7 +53,7 @@ def get_readable_time(seconds: int) -> str:
 
 PM_START_TEXT = """
 Halo {}, Namaku {}! 
-Aku Membantu di Grup @AnimeIndoReborn.
+Aku Membantu di Grup @biasalahexe.
 Jika kamu butuh bantuan tentang perintah ketikan /help.
 """
 
@@ -76,7 +76,7 @@ And the following:
 
 SAITAMA_IMG = "https://telegra.ph/file/5f21706cdf35546cbd4e0.jpg"
 
-DONATE_STRING = """Ehem. Cukup Join Grup Kami @AnimeIndoReborn dan itu akan membuat Aku senang :)"""
+DONATE_STRING = """Ehem. Cukup Join Grup Kami @biasalahexe dan itu akan membuat Aku senang :)"""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -199,12 +199,12 @@ def start(update: Update, context: CallbackContext):
                                 context.bot.username)),
                          InlineKeyboardButton(
                              text=" 🔔 Grup Chat ",
-                             url="https://t.me/AnimeIndoReborn")
+                             url="https://t.me/biasalahexe")
                      ],
                      [
                         InlineKeyboardButton(
                             text=" ✨ Help ",
-                            url="https://t.me/AiKawai_bot?start=help"),
+                            url="https://t.me/marsaladminbot?start=help"),
                          
                      ],
                      [
