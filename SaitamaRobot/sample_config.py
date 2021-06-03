@@ -58,6 +58,7 @@ class Config(object):
     AI_API_KEY = 'awoo'  #For chatbot, get one from https://coffeehouse.intellivoid.net/dashboard
     BL_CHATS = []  # List of groups that you want blacklisted.
     SPAMMERS = None
+    REM_BG_API_KEY = 'awoo'  # Get your API key from https://www.alphavantage.co/support/#api-key
     '''
     Use this if you are using REDIS Sever ->
     REDIS_URL = redis://you-server@redis.blabla.com:1080 #1080 is port number
