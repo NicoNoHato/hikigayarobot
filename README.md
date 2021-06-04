@@ -5,9 +5,9 @@
 
 A modular Telegram Python bot running on python3 with a sqlalchemy database and an entirely themed persona to make Saitama suitable for Anime and Manga group chats. 
 
-Can be found on telegram as [Hikigaya](https://t.me/hikigaya_robot).
+Can be found on telegram as [MARBOT](https://t.me/marsaladmin).
 
-The Support group can be reached out to at [hikigaya Support](https://t.me/hikigayasupport), where you can ask for help about [Hiki support'](https://t.me/hikigayasupport), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [Channel Support](https://t.me/resahaja), where you can ask for help about [Channel support'](https://t.me/resahaja), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 
 
